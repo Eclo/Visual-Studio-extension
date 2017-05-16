@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="Program.cs" />
-    <None Include="NFApp.csproj" />
+    <None Include="NFApp.nfproj" />
     <None Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

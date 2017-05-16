@@ -11,11 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="build\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\$(Configuration)\nanoFramework.Tools.MetaDataProcessor.exe">
       <Link>build\nanoFramework.Tools.MetaDataProcessor.exe</Link>
+    </Content>
+    <Content Include="..\..\VisualStudio.Extension\BuildSystem\Rules\GeneralBrowseObject.xaml">
+      <Link>build\Rules\GeneralBrowseObject.xaml</Link>
+    </Content>
+    <Content Include="..\..\VisualStudio.Extension\BuildSystem\Rules\GeneralConfiguredBrowseObject.xaml">
+      <Link>build\Rules\GeneralConfiguredBrowseObject.xaml</Link>
     </Content>
     <Content Include="..\bin\$(Configuration)\nanoFramework.Tools.BuildTasks.dll">
       <Link>build\nanoFramework.Tools.BuildTasks.dll</Link>
@@ -26,6 +29,9 @@
     <Content Include="..\..\VisualStudio.Extension\BuildSystem\DeployedBuildSystem\nanoFramework.Tools.MSBuildSystem.targets">
       <Link>build\nanoFramework.Tools.MSBuildSystem.targets</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="build\Rules\" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>1d406978-d747-4ba7-a315-155c0ffdfdbe</ProjectGuid>

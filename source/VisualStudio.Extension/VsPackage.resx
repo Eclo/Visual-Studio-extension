@@ -121,7 +121,7 @@
     <value>nanoFamework C# Project</value>
   </data>
   <data name="2" xml:space="preserve">
-    <value>nanoFamework C# Project Files (*.csproj);*.csproj</value>
+    <value>nanoFamework C# Project Files (*.nfproj);*.nfproj</value>
   </data>
   <data name="3" xml:space="preserve">
     <value>nanoFamework C# Project Items</value>

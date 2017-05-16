@@ -8,6 +8,12 @@
   <UsingTask TaskName="ResolveRuntimeDependenciesTask"    AssemblyFile="$(MSBuildThisFileDirectory)nanoFramework.Tools.BuildTasks.dll" />
   <UsingTask TaskName="GenerateNanoResourceTask"          AssemblyFile="$(MSBuildThisFileDirectory)nanoFramework.Tools.BuildTasks.dll" />
 
+
+  <ItemGroup>
+    <ProjectCapability Include="DeclaredSourceItems"/>
+    <ProjectCapability Include="UserSourceItems"/>
+  </ItemGroup>
+
   <!-- 
     ###########################################################
     common groups for CORE and NONE CORE builds 
@@ -827,4 +833,14 @@
       />
   </Target>
 
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\GeneralBrowseObject.xaml">
+      <Context>BrowseObject</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\GeneralConfiguredBrowseObject.xaml">
+      <Context>BrowseObject</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+    
 </Project>

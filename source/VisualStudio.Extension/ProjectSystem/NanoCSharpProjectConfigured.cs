@@ -4,6 +4,7 @@
 //
 
 namespace nanoFramework.Tools.VisualStudio.Extension
+
 {
     using Microsoft.VisualStudio.ProjectSystem;
     using System.ComponentModel.Composition;

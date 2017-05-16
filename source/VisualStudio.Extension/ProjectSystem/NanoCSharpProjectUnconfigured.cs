@@ -5,26 +5,20 @@
 
 namespace nanoFramework.Tools.VisualStudio.Extension
 {
+    using Microsoft;
     using Microsoft.VisualStudio.ProjectSystem;
     using Microsoft.VisualStudio.ProjectSystem.VS;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
+    using System;
     using System.ComponentModel.Composition;
 
 
     [Export]
     [AppliesTo(NanoCSharpProjectUnconfigured.UniqueCapability)]
-    [ProjectTypeRegistration(GuidsStrings.NanoCSharpProjectType, "NanoCSharpProject", "#2", ProjectExtension, Language, resourcePackageGuid: VsPackage.PackageGuid, PossibleProjectExtensions = ProjectExtension, ProjectTemplatesDir = @"..\..\Templates\Projects\MyCustomProject")]
-    [ProvideProjectItem(GuidsStrings.NanoCSharpProjectType, "NanoCSharpItems", @"..\..\Templates\ProjectItems\MyCustomProject", 500)]
 
     internal class NanoCSharpProjectUnconfigured
     {
-        /// <summary>
-        /// The file extension used by your project type.
-        /// This does not include the leading period.
-        /// </summary>
-        internal const string ProjectExtension = "csproj";
-
         /// <summary>
         /// A project capability that is present in your project type and none others.
         /// This is a convenient constant that may be used by your extensions so they
@@ -35,12 +29,16 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         /// </remarks>
         internal const string UniqueCapability = "NanoCSharpProjectType";
 
-        internal const string Language = "csharp";
-
         [ImportingConstructor]
         public NanoCSharpProjectUnconfigured(UnconfiguredProject unconfiguredProject)
         {
+            Requires.NotNull(unconfiguredProject, nameof(unconfiguredProject));
             this.ProjectHierarchies = new OrderPrecedenceImportCollection<IVsHierarchy>(projectCapabilityCheckProvider: unconfiguredProject);
+        }
+
+        public Guid ProjectTypeGuid
+        {
+            get { return new Guid(GuidsStrings.NanoCSharpProjectType); }
         }
 
         [Import]
