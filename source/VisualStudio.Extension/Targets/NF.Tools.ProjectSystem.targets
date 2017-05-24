@@ -1,18 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <!-- ProjectCapabilities in dev15 should be supported via NuGet packages -->
+  <ItemGroup>
+    <ProjectCapability Include="NanoCSharpProjectType" />
+
+    <ProjectCapability Include="PackagingProject" />
+
+    <!-- DependenciesTree capability lights up a Dependencies tree node and it's sub node providers-->
+    <!--<ProjectCapability Include="DependenciesTree" />-->
+
+    <ProjectCapability Include="
+                          AssemblyReferences;
+                          ProjectReferences;
+                          PackageReferences;
+                          OutputGroups;
+                          AllTargetOutputGroups;
+                          VisualStudioWellKnownOutputGroups;
+                          ProjectConfigurationsDeclaredAsItems" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\general.xaml;
+                                 $(MSBuildThisFileDirectory)Rules\CustomPropertyPage.xaml;">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="
+                        $(MSBuildThisFileDirectory)Rules\ProjectItemsSchema.xaml;
+                        "/>
+
+    <PropertyPageSchema Include="
+                        $(MSBuildThisFileDirectory)Rules\debugger_general.xaml;
+                        ">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\general_file.xaml">
+      <Context>File</Context>
+    </PropertyPageSchema>
+    
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\scc.xaml">
+      <Context>Invisible</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="
+                        $(MSBuildThisFileDirectory)Rules\folder.xaml;
+                        $(MSBuildThisFileDirectory)Rules\none.xaml;
+                        $(MSBuildThisFileDirectory)Rules\EmbeddedResource.xaml;
+                        ">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\general.browseobject.xaml">
+      <Context>BrowseObject</Context>
+    </PropertyPageSchema>
+
+  </ItemGroup>
+
+  
+  <Import Project="NF.Tools.ProjectSystem.props" Condition="'$(NanoCSharpProjecPropsImported)' == ''" />
+
   <!-- Declares the MSBuild tasks that are provided by nanoFramework tools.
     The path is the current directory because we are using the Nuget package build directory to place all these.
   -->
-  <UsingTask TaskName="MetaDataProcessorTask"             AssemblyFile="$(MSBuildThisFileDirectory)nanoFramework.Tools.BuildTasks.dll" />
-  <UsingTask TaskName="ResolveRuntimeDependenciesTask"    AssemblyFile="$(MSBuildThisFileDirectory)nanoFramework.Tools.BuildTasks.dll" />
-  <UsingTask TaskName="GenerateNanoResourceTask"          AssemblyFile="$(MSBuildThisFileDirectory)nanoFramework.Tools.BuildTasks.dll" />
-
-
-  <ItemGroup>
-    <ProjectCapability Include="DeclaredSourceItems"/>
-    <ProjectCapability Include="UserSourceItems"/>
-  </ItemGroup>
+  <UsingTask TaskName="MetaDataProcessorTask"             AssemblyFile="$(MSBuildThisFileDirectory)\Tools\nanoFramework.Tools.BuildTasks.dll" />
+  <UsingTask TaskName="ResolveRuntimeDependenciesTask"    AssemblyFile="$(MSBuildThisFileDirectory)\Tools\nanoFramework.Tools.BuildTasks.dll" />
+  <UsingTask TaskName="GenerateNanoResourceTask"          AssemblyFile="$(MSBuildThisFileDirectory)\Tools\nanoFramework.Tools.BuildTasks.dll" />
 
   <!-- 
     ###########################################################
@@ -833,14 +895,10 @@
       />
   </Target>
 
-  <ItemGroup>
-    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\GeneralBrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\GeneralConfiguredBrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-  </ItemGroup>
-    
+  <PropertyGroup>
+    <!--<RestoreProjectStyle>PackageReference</RestoreProjectStyle>-->
+    <!--<TargetFramework>net46</TargetFramework>-->
+    <!--<PackageTargetFallback>net11;net20;net35;net40;net403;net45;net451;net452;net46;net461;net462;netcore;netcore45;netcore451;netcore50</PackageTargetFallback>-->
+  </PropertyGroup>
+  
 </Project>

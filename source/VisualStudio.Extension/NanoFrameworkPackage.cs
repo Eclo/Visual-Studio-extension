@@ -9,6 +9,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
     using System;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Runtime.InteropServices;
 
     /// <summary>
@@ -19,9 +20,12 @@ namespace nanoFramework.Tools.VisualStudio.Extension
     /// or localized resources for the strings that appear in the New Project and Open Project dialogs.
     /// Creating project extensions or project types does not actually require a VSPackage.
     /// </remarks>
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(AllowsBackgroundLoading = true, RegisterUsing = RegistrationMethod.CodeBase, UseManagedResourcesOnly = true)]
     // info for package Help/About
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration("Visual Studio 2017 extension for nanoFramework",
+                                    "Enables creating C# Solutions to be deployed to a target board and provides debugging tools.", 
+                                    "1.0",
+                                    IconResourceID = 400)]
     // info that shown on extension catalog
     [Description("Visual Studio 2017 extension for nanoFramework. Enables creating C# Solutions to be deployed to a target board and provides debugging tools.")]
     // menu for ToolWindow
@@ -35,7 +39,12 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         /// <summary>
         /// The GUID for this package.
         /// </summary>
-        public const string PackageGuid = "23C2F819-1E4B-4012-98E9-8DB86E5F351D";
+        public const string PackageGuid = "0037AB05-18AE-4A66-864B-07CCADBD915C";
+
+        /// <summary>
+        /// Path for nanoFramework Extension directoy
+        /// </summary>
+        public static string NanoFrameworkExtensionDirectory { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NanoFrameworkPackage"/> class.
@@ -46,6 +55,13 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
+
+            // fill the property holding the extension install directory
+            var assembly = GetType().Assembly;
+            if (assembly.Location == null) throw new Exception("Could not get assembly location!");
+            var info = new FileInfo(assembly.Location).Directory;
+            if (info == null) throw new Exception("Could not get assembly directory!");
+            NanoFrameworkExtensionDirectory = info.FullName;
         }
 
         /// <summary>

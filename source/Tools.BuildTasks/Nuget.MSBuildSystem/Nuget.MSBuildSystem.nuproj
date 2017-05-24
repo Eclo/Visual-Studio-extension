@@ -11,8 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="build\Rules\" />
+    <Folder Include="Tools\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="..\..\$(Configuration)\nanoFramework.Tools.MetaDataProcessor.exe">
-      <Link>build\nanoFramework.Tools.MetaDataProcessor.exe</Link>
+      <Link>Tools\nanoFramework.Tools.MetaDataProcessor.exe</Link>
+    </Content>
+    <Content Include="..\..\VisualStudio.Extension\BuildSystem\Rules\general.xaml">
+      <Link>build\Rules\general.xaml</Link>
+    </Content>
+    <Content Include="..\..\VisualStudio.Extension\BuildSystem\Rules\NFDebugger.xaml">
+      <Link>build\Rules\NFDebugger.xaml</Link>
     </Content>
     <Content Include="..\..\VisualStudio.Extension\BuildSystem\Rules\GeneralBrowseObject.xaml">
       <Link>build\Rules\GeneralBrowseObject.xaml</Link>
@@ -21,13 +31,13 @@
       <Link>build\Rules\GeneralConfiguredBrowseObject.xaml</Link>
     </Content>
     <Content Include="..\bin\$(Configuration)\nanoFramework.Tools.BuildTasks.dll">
-      <Link>build\nanoFramework.Tools.BuildTasks.dll</Link>
+      <Link>Tools\nanoFramework.Tools.BuildTasks.dll</Link>
     </Content>
-    <Content Include="..\..\VisualStudio.Extension\BuildSystem\DeployedBuildSystem\nanoFramework.Tools.MSBuildSystem.props">
-      <Link>build\nanoFramework.Tools.MSBuildSystem.props</Link>
+    <Content Include="..\..\VisualStudio.Extension\BuildSystem\DeployedBuildSystem\NF.Tools.ProjectSystem.props">
+      <Link>build\NF.Tools.ProjectSystem.props</Link>
     </Content>
-    <Content Include="..\..\VisualStudio.Extension\BuildSystem\DeployedBuildSystem\nanoFramework.Tools.MSBuildSystem.targets">
-      <Link>build\nanoFramework.Tools.MSBuildSystem.targets</Link>
+    <Content Include="..\..\VisualStudio.Extension\BuildSystem\DeployedBuildSystem\NF.Tools.ProjectSystem.targets">
+      <Link>build\NF.Tools.ProjectSystem.targets</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>

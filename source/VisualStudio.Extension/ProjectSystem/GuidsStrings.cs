@@ -7,6 +7,6 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 {
     public class GuidsStrings
     {
-        public const string NanoCSharpProjectType = "7C493FD2-D550-48F2-989F-1E05E61FA71E";
+        public const string NanoCSharpProjectType = "DBBF4D2C-497A-43BF-B617-D858DDA6F86E";
     }
 }

@@ -16,8 +16,26 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
     [Export]
     [AppliesTo(NanoCSharpProjectUnconfigured.UniqueCapability)]
-    [ProjectTypeRegistration(GuidsStrings.NanoCSharpProjectType, "NanoCSharpProject", "#2", ProjectExtension, Language, resourcePackageGuid: NanoFrameworkPackage.PackageGuid, PossibleProjectExtensions = ProjectExtension, ProjectTemplatesDir = @"..\..\Templates\Projects\MyCustomProject")]
-    [ProvideProjectItem(GuidsStrings.NanoCSharpProjectType, "NanoCSharpItems", @"..\..\Templates\ProjectItems\MyCustomProject", 500)]
+    [ProvideProjectItem(GuidsStrings.NanoCSharpProjectType,
+                        "NanoCSharpItems",
+                        @"..\..\Templates\ProjectItems\MyCustomProject", 500
+                        )]
+    [ProjectTypeRegistration(GuidsStrings.NanoCSharpProjectType,
+                                "NanoCSharpProjectType",
+                                "nanoFamework C# Project Files (*.nfproj);*.nfproj", 
+                                ProjectExtension, 
+                                Language,  
+                                resourcePackageGuid: NanoFrameworkPackage.PackageGuid, 
+                                PossibleProjectExtensions = ProjectExtension, 
+                                ProjectTemplatesDir = @"..\..\Templates\Projects\NanoCSharpProject", 
+                                Capabilities = NanoCSharpProjectUnconfigured.UniqueCapability + ";"
+                                    + ProjectCapabilities.AssemblyReferences + ";" 
+                                    + ProjectCapabilities.HandlesOwnReload + ";"
+                                    + ProjectCapabilities.Managed + ";"
+                                    + ProjectCapabilities.PackageReferences + ";"
+                                    + ProjectCapabilities.ProjectReferences
+                                )]
+    [ProvideProjectItem(GuidsStrings.NanoCSharpProjectType, "NanoCSharpItems", @"..\..\Templates\ProjectItems\NanoCSharpProject", 500)]
 
     internal class NanoCSharpProjectUnconfigured
     {
@@ -31,11 +49,19 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         /// </remarks>
         internal const string UniqueCapability = "NanoCSharpProjectType";
 
+        /// <summary>
+        /// The file extension used by your project type.
+        /// This does not include the leading period.
+        /// </summary>
+        internal const string ProjectExtension = "nfproj";
+
+        internal const string Language = "CSharp";
+
         [ImportingConstructor]
         public NanoCSharpProjectUnconfigured(UnconfiguredProject unconfiguredProject)
         {
             Requires.NotNull(unconfiguredProject, nameof(unconfiguredProject));
-            this.ProjectHierarchies = new OrderPrecedenceImportCollection<IVsHierarchy>(projectCapabilityCheckProvider: unconfiguredProject);
+            ProjectHierarchies = new OrderPrecedenceImportCollection<IVsHierarchy>(projectCapabilityCheckProvider: unconfiguredProject);
         }
 
         public Guid ProjectTypeGuid
@@ -61,10 +87,6 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         [ImportMany(ExportContractNames.VsTypes.IVsProject, typeof(IVsProject))]
         internal OrderPrecedenceImportCollection<IVsHierarchy> ProjectHierarchies { get; private set; }
 
-        internal IVsHierarchy ProjectHierarchy
-        {
-            get { return this.ProjectHierarchies.Single().Value; }
-        }
+        internal IVsHierarchy ProjectHierarchy => ProjectHierarchies.Single().Value;
     }
-
 }

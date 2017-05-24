@@ -7,6 +7,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
 {
     using Microsoft.VisualStudio.ProjectSystem;
+    using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.CodeAnalysis;
 
