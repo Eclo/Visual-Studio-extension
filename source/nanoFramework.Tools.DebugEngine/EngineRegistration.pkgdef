@@ -1,0 +1,30 @@
+﻿; This file registers nanoFramework debug engine with Visual Studio.
+; The 'AD7Metrics\Engine\{guid}' section declares capabiliets of the engine.
+; Make sure to update the GUID in this file when changing EngineConstants.EngineId
+
+[$RootKey$\AD7Metrics\Engine\{9C4F6DB6-C12E-48CC-BCB5-D3783416A031}]
+"CLSID"="{8355452D-6D2F-41b0-89B8-BB2AA2529E94}"
+"ProgramProvider"="{FF3E23A2-DA7E-4fa7-AF47-6EDEDE4E922E}"
+"Attach"=dword:00000001
+"AddressBP"=dword:00000000
+"AutoSelectPriority"=dword:00000004
+"CallstackBP"=dword:00000001
+"Name"="nanoFramework Debug Engine"
+"PortSupplier"="{708C1ECA-FF48-11D2-904F-00C04FA302A1}"
+@="nanoFramework Debug Engine"
+
+[$RootKey$\AD7Metrics\Engine\{9C4F6DB6-C12E-48CC-BCB5-D3783416A031}\IncompatibleList]
+"guidCOMPlusNativeEng"="{92EF0900-2251-11D2-B72E-0000F87572EF}"
+"guidCOMPlusOnlyEng"="{449EC4CC-30D2-4032-9256-EE18EB41B62B}"
+"guidNativeOnlyEng"="{449EC4CC-30D2-4032-9256-EE18EB41B62B}"
+"guidScriptEng"="{F200A7E7-DEA5-11D0-B854-00A0244A1DE2}"
+
+[$RootKey$\CLSID\{8355452D-6D2F-41b0-89B8-BB2AA2529E94}]
+"Assembly"="nanoFramework.Tools.DebugEngine"
+"Class"="nanoFramework.Tools.DebugEngine.AD7Engine"
+"CodeBase"="$PackageFolder$\nanoFramework.Tools.DebugEngine.dll"
+
+[$RootKey$\CLSID\{FF3E23A2-DA7E-4fa7-AF47-6EDEDE4E922E}]
+"Assembly"="nanoFramework.Tools.DebugEngine"
+"Class"="nanoFramework.Tools.DebugEngine.AD7ProgramProvider"
+"CodeBase"="$PackageFolder$\nanoFramework.Tools.DebugEngine.dll"
