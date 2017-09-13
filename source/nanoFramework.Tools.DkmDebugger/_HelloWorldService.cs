@@ -4,7 +4,7 @@
 using Microsoft.VisualStudio.Debugger.CallStack;
 using Microsoft.VisualStudio.Debugger.ComponentInterfaces;
 
-namespace nanoFramework.Tools.VisualStudio.Extension
+namespace nanoFramework.Tools.DkmDebugger
 {
     /// <summary>
     /// The one and only public class in the sample. This implements the IDkmCallStackFilter

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.VSSDK.BuildTools.15.1.192\build\Microsoft.VSSDK.BuildTools.props" Condition="Exists('..\packages\Microsoft.VSSDK.BuildTools.15.1.192\build\Microsoft.VSSDK.BuildTools.props')" />
   <PropertyGroup>
@@ -60,28 +60,47 @@
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <VSSDKRoot Condition="'$(DevEnvDir)'!='' and Exists('$(DevEnvDir)..\..\VSSDK\VisualStudioIntegration\')">$([System.IO.Path]::GetFullPath('$(DevEnvDir)..\..\VSSDK\'))</VSSDKRoot>
-    <VSSDKRoot Condition="'$(VSSDKRoot)'==''">$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\VSIP\14.0\@InstallDir)</VSSDKRoot>
-    <VSSDKRoot Condition="'$(VSSDKRoot)'==''">$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\VSIP\14.0\@InstallDir)</VSSDKRoot>
-    <VSSDKRoot Condition="'$(VSSDKRoot)'!='' and '$(VSSDKRoot.EndsWith(&quot;\&quot;))'=='false'">$(VSSDKRoot)\</VSSDKRoot>
-    <!--Root directory to Concord SDK install; includes the trailing backslash '\'.-->
-    <ConcordSDKDir>$(VSSDKRoot)VisualStudioIntegration\</ConcordSDKDir>
-    <VsdConfigFile>$(OutputPath)nanoFramework.Tools.VS2017.Extension.vsdconfig</VsdConfigFile>
-  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ProjectSystem\Collections\DictionaryEqualityComparer.cs" />
+    <Compile Include="ProjectSystem\Debug\IDebugProfileLaunchTargetsProvider.cs" />
+    <Compile Include="ProjectSystem\Debug\IJsonSection.cs" />
+    <Compile Include="ProjectSystem\Debug\ILaunchProfile.cs" />
+    <Compile Include="ProjectSystem\Debug\ILaunchSettings.cs" />
+    <Compile Include="ProjectSystem\Debug\ILaunchSettingsProvider.cs" />
+    <Compile Include="ProjectSystem\Debug\ILaunchSettingsProvider2.cs" />
+    <Compile Include="ProjectSystem\Debug\ILaunchSettingsSerializationProvider.cs" />
+    <Compile Include="ProjectSystem\Debug\IWritableLaunchProfile.cs" />
+    <Compile Include="ProjectSystem\Debug\IWritableLaunchSettings.cs" />
+    <Compile Include="ProjectSystem\Debug\LaunchProfile.cs" />
+    <Compile Include="ProjectSystem\Debug\LaunchProfileData.cs" />
+    <Compile Include="ProjectSystem\Debug\LaunchSettings.cs" />
+    <Compile Include="ProjectSystem\Debug\LaunchSettingsData.cs" />
+    <Compile Include="ProjectSystem\Debug\LaunchSettingsProvider.cs" />
     <Compile Include="Deployment\DeployState.cs" />
     <Compile Include="Deployment\DeployProvider.cs" />
-    <Compile Include="DkmDebugger\HelloWorldDataItem.cs" />
-    <Compile Include="DkmDebugger\_HelloWorldService.cs" />
     <Compile Include="Extensions\VersionExtensions.cs" />
     <Compile Include="Extensions\IVsOutputWindowPaneExtensions.cs" />
     <Compile Include="NanoFrameworkMonikers.cs" />
+    <Compile Include="ProjectSystem\Debug\ProjectDebuggerProvider.cs" />
+    <Compile Include="ProjectSystem\Debug\StartupProjectRegistrar.cs" />
+    <Compile Include="ProjectSystem\Debug\WritableLaunchProfile.cs" />
+    <Compile Include="ProjectSystem\Debug\WritableLaunchSettings.cs" />
     <Compile Include="ProjectSystem\GlobalPropertiesProvider.cs" />
+    <Compile Include="ProjectSystem\IFileSystem.cs" />
+    <Compile Include="ProjectSystem\IPhysicalProjectTree.cs" />
+    <Compile Include="ProjectSystem\IPhysicalProjectTreeStorage.cs" />
+    <Compile Include="ProjectSystem\IUnconfiguredProjectCommonServices.cs" />
+    <Compile Include="ProjectSystem\IVsService`1.cs" />
+    <Compile Include="ProjectSystem\IVsService`2.cs" />
     <Compile Include="ProjectSystem\NanoCSharpProjectConfigured.cs" />
     <Compile Include="ProjectSystem\NanoCSharpProjectUnconfigured.cs" />
     <Compile Include="ProjectSystem\ProjectProperties.cs" />
+    <Compile Include="ProjectSystem\ProjectTreeFlagsExtensions.cs" />
     <Compile Include="ProjectSystem\ProjectTreePropertiesProvider.cs" />
+    <Compile Include="ProjectSystem\ProjectTreeProviderExtensions.cs" />
+    <Compile Include="ProjectSystem\SequencialTaskExecutor.cs" />
+    <Compile Include="ProjectSystem\SpecialFileProviders\AppDesignerFolderSpecialFileProvider.cs" />
+    <Compile Include="ProjectSystem\TaskExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceStrings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -104,9 +123,6 @@
     <Compile Include="ToolWindow.DeviceExplorer\ViewModel\IDataService.cs" />
     <Compile Include="ToolWindow.DeviceExplorer\ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <VsdConfigXmlFiles Include="DkmDebugger\HelloWorld.vsdconfigxml" />
-  </ItemGroup>  
   <ItemGroup>
     <Content Include="..\packages\nanoFramework.CoreLibrary.1.0.0-preview028\nanoFramework.CoreLibrary.1.0.0-preview028.nupkg">
       <Link>Packages\nanoFramework.CoreLibrary.1.0.0-preview028.nupkg</Link>
@@ -206,7 +222,6 @@
       <HintPath>..\packages\Microsoft.VisualStudio.CoreUtility.15.0.26606\lib\net45\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Debugger.Engine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.ImageCatalog, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Imaging, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.Imaging.15.0.26606\lib\net45\Microsoft.VisualStudio.Imaging.dll</HintPath>
@@ -214,6 +229,8 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.14.3.25407\lib\Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\Microsoft.VisualStudio.OLE.Interop.7.10.6070\lib\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
@@ -256,6 +273,11 @@
       <HintPath>..\packages\Microsoft.VisualStudio.Shell.Interop.12.0.12.0.30110\lib\Microsoft.VisualStudio.Shell.Interop.12.0.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime.14.3.25407\lib\Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime.15.0.26606\lib\net20\Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -293,6 +315,9 @@
     </Reference>
     <Reference Include="nanoFramework.Tools.Debugger, Version=0.5.6458.16496, Culture=neutral, PublicKeyToken=e520bb6b53f04733, processorArchitecture=MSIL">
       <HintPath>..\packages\nanoFramework.Tools.Debugger.Net.0.4.0-preview021\lib\net46\nanoFramework.Tools.Debugger.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Polly, Version=5.3.1.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
       <HintPath>..\packages\Polly-Signed.5.3.1\lib\net45\Polly.dll</HintPath>
@@ -383,8 +408,8 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.8.0\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.25.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.5.25\lib\dotnet\System.Threading.Tasks.Dataflow.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.4.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -409,7 +434,7 @@
     <VSIXSourceItem Include="$(VsdConfigFile)">
       <VSIXSubPath>$(AssemblyVSIXSubPath)</VSIXSubPath>
     </VSIXSourceItem>
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <!-- reference this project when Configuration is Debug (on Release reference Nuget package instead) -->
     <!--<ProjectReference Condition="'$(Configuration)' == 'Debug'" Include="..\..\nf-debugger\source\nanoFramework.Tools.DebugLibrary.Net\nanoFramework.Tools.DebugLibrary.Net.csproj">
@@ -458,6 +483,11 @@
       <VSIXSubPath>nanoFramework\v1.0\</VSIXSubPath>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\nanoFramework.Tools.DkmDebugger\nanoFramework.Tools.DkmDebugger.csproj">
+      <Project>{401A9407-9320-4F90-95CB-07FE2191714E}</Project>
+      <Name>nanoFramework.Tools.DkmDebugger</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DeviceDisconnected.16.16.png" />
@@ -500,6 +530,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Rules\AppDesigner.xaml">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath>nanoFramework\v1.0\Rules\</VSIXSubPath>
+      <InstallRoot>MSBuild</InstallRoot>
+    </Content>
     <Content Include="Rules\csharp.browseobject.xaml">
       <SubType>Designer</SubType>
       <InstallRoot>MSBuild</InstallRoot>
@@ -572,39 +608,64 @@
       <InstallRoot>MSBuild</InstallRoot>
       <VSIXSubPath>nanoFramework\v1.0\Rules\</VSIXSubPath>
     </Content>
+    <Content Include="Rules\ProjectDebugger.xaml">
+      <SubType>Designer</SubType>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <InstallRoot>MSBuild</InstallRoot>
+      <VSIXSubPath>nanoFramework\v1.0\Rules\</VSIXSubPath>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <XamlPropertyRule Include="Rules\AppDesigner.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <SubType>Designer</SubType>
+    </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\csharp.browseobject.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\csharp.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\NanoFrameworkPropertyPage.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\debugger_general.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\EmbeddedResource.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\folder.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\general.browseobject.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\general.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\general_file.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\none.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <SubType>Designer</SubType>
+    </XamlPropertyRule>
+    <XamlPropertyRule Include="Rules\ProjectDebugger.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="Rules\scc.xaml">
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
   </ItemGroup>
@@ -621,19 +682,8 @@
       <MergeWithCTO>true</MergeWithCTO>
     </EmbeddedResource>
   </ItemGroup>
-  <!-- .vsdconfigxml -> .vsdconfig -->
-  <!-- <ItemGroup>
-    <VsdConfigXml Include="DkmDebugger\*.vsdconfigxml" />
-  </ItemGroup> -->
-  <!-- <ItemGroup>
-    <VsdConfigXmlTransformed Include="@(VsdConfigXml->'$(IntermediateOutputPath)\%(Filename)%(Extension)')" />
-  </ItemGroup> -->
-  <PropertyGroup>
-    <VsdConfigOutput>$(IntermediateOutputPath)\DkmDebugger.vsdconfig</VsdConfigOutput>
-  </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(ConcordSDKDir)Tools\Bin\Microsoft.VSDebugger.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

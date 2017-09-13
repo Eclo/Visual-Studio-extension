@@ -4,7 +4,7 @@
 using Microsoft.VisualStudio.Debugger;
 using Microsoft.VisualStudio.Debugger.CallStack;
 
-namespace nanoFramework.Tools.VisualStudio.Extension
+namespace nanoFramework.Tools.DkmDebugger
 {
     /// <summary>
     /// Defines the two possible states the HelloWorld stack frame filter can be in.

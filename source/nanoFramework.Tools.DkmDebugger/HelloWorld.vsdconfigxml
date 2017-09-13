@@ -22,10 +22,10 @@ For more information about this file, see https://github.com/Microsoft/ConcordEx
   <ManagedComponent
     ComponentId="4E228308-54B0-47DC-AC08-74452ACA9A79"
     ComponentLevel="9995000"
-    AssemblyName="nanoFramework.Tools.VS2017.Extension">
+    AssemblyName="nanoFramework.Tools.DkmDebugger">
     <!--NOTE: For more information on ComponentLevel, see https://github.com/Microsoft/ConcordExtensibilitySamples/wiki/Component-Levels-->
 
-    <Class Name="nanoFramework.Tools.VisualStudio.Extension.HelloWorldService">
+    <Class Name="nanoFramework.Tools.DkmDebugger.HelloWorldService">
 
       <Implements>
         <InterfaceGroup>

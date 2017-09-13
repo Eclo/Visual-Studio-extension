@@ -5,6 +5,7 @@
   <PropertyGroup>
     <!--<DefineCommonCapabilities>false</DefineCommonCapabilities>-->
     <!--<DefineCommonReferenceSchemas>false</DefineCommonReferenceSchemas>-->
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
 
   <!--Importing project specific targets **AFTER** Microsoft.CSharp.targets so that project specific xaml rules can override those defined in MSBuild-->
@@ -55,7 +56,7 @@
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\csharp.xaml;">
       <Context>File</Context>
     </PropertyPageSchema>
-    
+
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\general_file.xaml">
       <Context>File</Context>
     </PropertyPageSchema>
@@ -68,6 +69,14 @@
                         $(MSBuildThisFileDirectory)Rules\none.xaml;
                         ">
       <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)AppDesigner.xaml">
+      <Context>ProjectSubscriptionService</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)ProjectDebugger.xaml">
+      <Context>Project</Context>
     </PropertyPageSchema>
 
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\general.browseobject.xaml">

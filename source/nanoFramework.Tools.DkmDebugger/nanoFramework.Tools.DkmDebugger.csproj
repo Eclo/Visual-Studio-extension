@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{401A9407-9320-4F90-95CB-07FE2191714E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>nanoFramework.Tools.DkmDebugger</RootNamespace>
+    <AssemblyName>nanoFramework.Tools.DkmDebugger</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <VSSDKRoot Condition="'$(DevEnvDir)'!='' and Exists('$(DevEnvDir)..\..\VSSDK\VisualStudioIntegration\')">$([System.IO.Path]::GetFullPath('$(DevEnvDir)..\..\VSSDK\'))</VSSDKRoot>
+    <VSSDKRoot Condition="'$(VSSDKRoot)'==''">$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\VSIP\14.0\@InstallDir)</VSSDKRoot>
+    <VSSDKRoot Condition="'$(VSSDKRoot)'==''">$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\VSIP\14.0\@InstallDir)</VSSDKRoot>
+    <VSSDKRoot Condition="'$(VSSDKRoot)'!='' and '$(VSSDKRoot.EndsWith(&quot;\&quot;))'=='false'">$(VSSDKRoot)\</VSSDKRoot>
+    <!--Root directory to Concord SDK install; includes the trailing backslash '\'.-->
+    <ConcordSDKDir>$(VSSDKRoot)VisualStudioIntegration\</ConcordSDKDir>
+    <!-- <VsdConfigFile>$(OutputPath)nanoFramework.Tools.DkmDebugger.vsdconfig</VsdConfigFile> -->
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup> 
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.Debugger.Engine">
+      <HintPath>$(ConcordSDKDir)Reference Assemblies\Microsoft.VisualStudio.Debugger.Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HelloWorldDataItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_HelloWorldService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <VsdConfigXmlFiles Include="HelloWorld.vsdconfigxml">
+      <SubType>Designer</SubType>
+    </VsdConfigXmlFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="key.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(ConcordSDKDir)Tools\bin\Microsoft.VSDebugger.targets" />
+  <!-- <Target Name="IncludeVsdConfig" BeforeTargets="AssignTargetPaths;GetVSIXSourceItems">
+    <ItemGroup>
+      <Content Include="$(VsdConfigFile)">
+        <IncludeInVSIX>true</IncludeInVSIX>
+        <VSIXSubPath>.</VSIXSubPath>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Link>$([System.IO.Path]::GetFileName($(VsdConfigFile)))</Link>
+      </Content>
+    </ItemGroup>
+    <Message Text="VsdConfigFile: $(VsdConfigFile)" Importance="high" />
+  </Target>   -->
+</Project>
