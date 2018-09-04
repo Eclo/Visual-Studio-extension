@@ -16,11 +16,11 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         [Import, SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "MEF")]
         internal ConfiguredProject ConfiguredProject { get; private set; }
 
-        [Import, SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "MEF")]
-        internal ProjectProperties Properties { get; private set; }
+        //[Import, SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "MEF")]
+        //internal ProjectProperties Properties { get; private set; }
 
-        [Import(ExportContractNames.Scopes.ConfiguredProject)]
-        IProjectAsynchronousTasksService AsyncTasksService { get; set; }
+        //[Import(ExportContractNames.Scopes.ConfiguredProject)]
+        //IProjectAsynchronousTasksService AsyncTasksService { get; set; }
 
         
     }

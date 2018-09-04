@@ -9,9 +9,8 @@
     <Rule.Categories>
         <Category Name="General" DisplayName="General" Description="General" />
     </Rule.Categories>
-    
     <Rule.DataSource>
-        <DataSource Persistence="ProjectFile"  HasConfigurationCondition="false" />
+        <DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false" />
     </Rule.DataSource>
 
     <StringProperty Name="Name" />
@@ -34,6 +33,11 @@
             <DataSource PersistedName="RootNamespace" Persistence="ProjectFile" HasConfigurationCondition="false" SourceOfDefaultValue="AfterContext" />
         </StringProperty.DataSource>
     </StringProperty>
-    
+
+    <BoolProperty Category="General" Name="NF_GenerateStubs" DisplayName="Generate stub files" Visible="True" Default="false" Description="Enable this to generate stub files during build.">
+        <BoolProperty.DataSource>
+            <DataSource Persistence="ProjectFile" Label="nanoFramework" PersistedName="NF_GenerateStubs" HasConfigurationCondition="False" />
+        </BoolProperty.DataSource>
+    </BoolProperty>
+
 </Rule>
-    

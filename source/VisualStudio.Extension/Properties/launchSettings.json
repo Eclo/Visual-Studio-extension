@@ -1,0 +1,11 @@
+{
+    "profiles": {
+      "VisualStudio.Extension": {
+        "commandName": "Executable",
+        "executablePath": "$(DevenvDir)devenv.exe",
+        "commandLineArgs": "/rootsuffix exp",
+        "environmentVariables": { "VisualStudio.ExtensionDesignTimeTargetsPath": "$(OutputPath)BuildSystem\\VisualStudio.Extension.DesignTime.targets" }
+      }
+    }
+  }
+  

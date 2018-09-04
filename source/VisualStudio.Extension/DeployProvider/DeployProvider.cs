@@ -4,26 +4,27 @@
 // See LICENSE file in the project root for full license information.
 //
 
-using Microsoft.VisualStudio.ProjectSystem;
-using Microsoft.VisualStudio.ProjectSystem.Build;
-using Microsoft.VisualStudio.ProjectSystem.References;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Threading;
-using nanoFramework.Tools.Debugger;
-using nanoFramework.Tools.Debugger.Extensions;
-using nanoFramework.Tools.VisualStudio.Extension.Resources;
-using nanoFramework.Tools.VisualStudio.Extension.ToolWindow.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using Task = System.Threading.Tasks.Task;
-
 namespace nanoFramework.Tools.VisualStudio.Extension
 {
+    using Microsoft.VisualStudio.ProjectSystem;
+    using Microsoft.VisualStudio.ProjectSystem.Build;
+    using Microsoft.VisualStudio.ProjectSystem.References;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Threading;
+    using nanoFramework.Tools.Debugger;
+    using nanoFramework.Tools.Debugger.Extensions;
+    using nanoFramework.Tools.VisualStudio.Extension.Resources;
+    using nanoFramework.Tools.VisualStudio.Extension.ToolWindow.ViewModel;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+    using Task = System.Threading.Tasks.Task;
+
+
     [Export(typeof(IDeployProvider))]
     [AppliesTo(NanoCSharpProjectUnconfigured.UniqueCapability)]
     internal class DeployProvider : IDeployProvider
@@ -49,7 +50,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         /// Provides access to the project's properties.
         /// </summary>
         [Import]
-        private ProjectProperties Properties { get; set; }
+        private ProjectSystem.ProjectProperties Properties { get; set; }
 
         [Import]
         IProjectService ProjectService { get; set; }
@@ -190,7 +191,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                             configuredProjectsByOutputAssemblyPath,
                             outputAssemblyPathsByConfiguredProject,
                             assemblyPathsToDeploy,
-                            Properties.ConfiguredProject);
+                            Properties.GetConfiguredProject);
 
                         // build a list with the full path for each DLL, referenced DLL and EXE
                         List<(string path, string version)> assemblyList = new List<(string path, string version)>();

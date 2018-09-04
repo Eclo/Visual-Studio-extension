@@ -2,28 +2,26 @@
 // Copyright (c) 2017 The nanoFramework project contributors
 // See LICENSE file in the project root for full license information.
 //
-
-using GalaSoft.MvvmLight.Ioc;
-using Microsoft.VisualStudio.ProjectSystem;
-using Microsoft.VisualStudio.ProjectSystem.Debug;
-using Microsoft.VisualStudio.ProjectSystem.References;
-using Microsoft.VisualStudio.ProjectSystem.VS.Debug;
-using Microsoft.VisualStudio.Threading;
-using nanoFramework.Tools.VisualStudio.Extension.ToolWindow.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
 namespace nanoFramework.Tools.VisualStudio.Extension
 {
-    [ExportDebugger(NanoDebugger.SchemaName)]
+    using GalaSoft.MvvmLight.Ioc;
+    using Microsoft.VisualStudio.ProjectSystem;
+    using Microsoft.VisualStudio.ProjectSystem.Debug;
+    using Microsoft.VisualStudio.ProjectSystem.VS.Debug;
+    using Microsoft.VisualStudio.Threading;
+    using nanoFramework.Tools.VisualStudio.Extension.ToolWindow.ViewModel;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Composition;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    [ExportDebugger(Rules.NanoDebugger.SchemaName)]
     [AppliesTo(NanoCSharpProjectUnconfigured.UniqueCapability)]
     internal partial class NanoDebuggerLaunchProvider : DebugLaunchProviderBase
     {
-        [ImportingConstructor]
+        [System.Composition.ImportingConstructor]
         public NanoDebuggerLaunchProvider(ConfiguredProject configuredProject)
             : base(configuredProject)
         {
@@ -32,10 +30,10 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         /// <summary>
         /// Provides access to the project's properties.
         /// </summary>
-        [Import]
-        private ProjectProperties Properties { get; set; }
+        //[System.Composition.Import]
+        //private ProjectProperties Properties { get; set; }
 
-        [Import]
+        [System.Composition.Import]
         IProjectService ProjectService { get; set; }
 
         public override async Task<IReadOnlyList<IDebugLaunchSettings>> QueryDebugTargetsAsync(DebugLaunchOptions launchOptions)
@@ -47,11 +45,11 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             commandLine = string.Format("{0} \"{1}{2}\"", commandLine, CorDebugProcess.DeployDeviceName, deployDeviceName);
 
             // The properties that are available via DebuggerProperties are determined by the property XAML files in your project.
-            var debuggerProperties = await Properties.GetNanoDebuggerPropertiesAsync();
+            //var debuggerProperties = await Properties.GetNanoDebuggerPropertiesAsync();
 
             var settings = new DebugLaunchSettings(launchOptions)
             {
-                CurrentDirectory = await debuggerProperties.NanoDebuggerWorkingDirectory.GetEvaluatedValueAtEndAsync(),
+                //CurrentDirectory = await debuggerProperties.NanoDebuggerWorkingDirectory.GetEvaluatedValueAtEndAsync(),
                 Executable = typeof(CorDebugProcess).Assembly.Location,
                 Arguments = commandLine,
                 LaunchOperation = DebugLaunchOperation.CreateProcess,
@@ -112,7 +110,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 configuredProjectsByOutputAssemblyPath,
                 outputAssemblyPathsByConfiguredProject,
                 assemblyPathsToDeploy,
-                Properties.ConfiguredProject);
+                ConfiguredProject);
 
 
             // build a list with the full path for each DLL, referenced DLL and EXE

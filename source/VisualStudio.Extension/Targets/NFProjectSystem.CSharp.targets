@@ -49,10 +49,15 @@
 
   <ItemGroup>
 
-    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\nfProjectItemsSchema.xaml;"/>
-
     <PropertyPageSchema Include="
                         $(MSBuildThisFileDirectory)Rules\general.xaml;
+                        ">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)nfProjectItemsSchema.xaml;"/>
+
+    <PropertyPageSchema Include="
                         $(MSBuildThisFileDirectory)Rules\NanoFrameworkPropertyPage.xaml;
                         ">
       <Context>Project</Context>
@@ -75,6 +80,7 @@
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\general_file.xaml">
       <Context>File</Context>
     </PropertyPageSchema>
+    
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\scc.xaml">
       <Context>Invisible</Context>
     </PropertyPageSchema>
@@ -89,7 +95,6 @@
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\general.browseobject.xaml">
       <Context>BrowseObject</Context>
     </PropertyPageSchema>
-
 
   </ItemGroup>
 
