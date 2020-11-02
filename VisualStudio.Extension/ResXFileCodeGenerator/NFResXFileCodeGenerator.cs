@@ -4,10 +4,14 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using EnvDTE;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Designer.Interfaces;
 using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem.References;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using nanoFramework.Tools.Utilities;
@@ -27,6 +31,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
+using VSLangProj;
 using IOleServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
 
 namespace nanoFramework.Tools.VisualStudio.Extension
@@ -265,6 +270,72 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         internal bool m_fNestedEnums = true;
         internal bool m_fMscorlib = false;
 
+        protected void RemoveUnwantedReferences()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            try
+            {
+                IntPtr punkVsBrowseObject;
+                Guid vsBrowseObjectGuid = typeof(IVsBrowseObject).GUID;
+
+                GetSite(ref vsBrowseObjectGuid, out punkVsBrowseObject);
+
+                if (punkVsBrowseObject != IntPtr.Zero)
+                {
+
+                    IVsBrowseObject vsBrowseObject = Marshal.GetObjectForIUnknown(punkVsBrowseObject) as IVsBrowseObject;
+                    Debug.Assert(vsBrowseObject != null, "Generator invoked by Site that is not IVsBrowseObject?");
+
+                    Marshal.Release(punkVsBrowseObject);
+
+                    if (vsBrowseObject != null)
+                    {
+                        IVsHierarchy vsHierarchy;
+                        uint vsitemid;
+
+                        vsBrowseObject.GetProjectItem(out vsHierarchy, out vsitemid);
+
+                        Debug.Assert(vsHierarchy != null, "GetProjectItem should have thrown or returned a valid IVsHierarchy");
+                        Debug.Assert(vsitemid != 0, "GetProjectItem should have thrown or returned a valid VSITEMID");
+
+                        if (vsHierarchy != null)
+                        {
+                            vsHierarchy.GetProperty(
+                                    VSConstants.VSITEMID_ROOT,
+                                    (int)__VSHPROPID.VSHPROPID_ExtObject,
+                                    out var objProj);
+
+                            Project proj = objProj as Project;
+
+                            if(proj != null)
+                            {
+                                var vsproject = proj.Object as VSProject;
+
+
+                                foreach (Reference reference in vsproject.References)
+                                {
+                                    // check if this is an assembly reference
+                                    if (reference.SourceProject == null)
+                                    {
+                                        // remove unwanted references
+                                        if (reference.Name == "System.Drawing")
+                                        {
+                                            reference.Remove();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+        }
+
         protected string GetResourcesNamespace()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -348,6 +419,27 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             StreamWriter streamWriter = new StreamWriter(outputStream);
             string inputFileNameWithoutExtension = Path.GetFileNameWithoutExtension(inputFileName);
 
+
+            //IProjectService projectService = ServiceProvider.GlobalProvider.GetService(typeof(IProjectService)) as IProjectService;
+
+            //var projSystemType = projectService.Services.GetType();
+
+            //                // get private property MSBuildProject
+            //var buildProject = projSystemType.GetTypeInfo().GetDeclaredProperty("MSBuildProject");
+
+
+            //IProjectService projectService = (IProjectService)GetService(typeof(IProjectService));
+            //ProjectProperties projectProperties = (ProjectProperties)GetService(typeof(ProjectProperties));
+
+            //foreach (IAssemblyReference assemblyReference in
+            //      projectProperties.ConfiguredProject.Services.AssemblyReferences.GetResolvedReferencesAsync().GetAwaiter().GetResult())
+            //{
+            //    // As assemblyPathsToDeploy is a HashSet, the same path will not occure more than once even if added
+            //    // more than once by distinct projects referencing the same NuGet package for example.
+            //    //assemblyPathsToDeploy.Add(await assemblyReference.GetFullPathAsync());
+            //}
+
+
             // get VS extension assembly to reach ProcessResourceFiles type
             Assembly buildTasks = GetType().Assembly;
 
@@ -355,6 +447,8 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
             if (typ != null)
             {
+                RemoveUnwantedReferences();
+
                 object processResourceFiles = typ.GetConstructor(new Type[] { }).Invoke(null);
 
                 typ.GetProperty("StronglyTypedClassName").SetValue(processResourceFiles, inputFileNameWithoutExtension, null);
@@ -375,6 +469,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 }
 
                 typ.GetMethod("CreateStronglyTypedResources").Invoke(processResourceFiles, new object[] { inputFileName, CodeProvider, streamWriter, resourceName });
+
             }
             else
             {
