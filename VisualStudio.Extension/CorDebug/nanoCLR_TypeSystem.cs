@@ -129,7 +129,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
             if (assembly != null)
             {
-                uint tk = nanoCLR_TypeSystem.nanoCLRTokenFromMethodIndex (methodIndex);
+                uint tk = nanoCLR_TypeSystem.NanoClrTokenFromMethodIndex (methodIndex);
                 function = assembly.GetFunctionFromTokennanoCLR (tk);                
             }
 
@@ -157,37 +157,37 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             return nanoCLR_TypeSystem.CLR_TkFromType (tbl, idxMethod);
         }
 
-        public static uint nanoCLRTokenFromMethodIndex (uint index)
+        public static uint NanoClrTokenFromMethodIndex (uint index)
         {
             return nanoCLRTokenFromIndex (nanoCLR_TypeSystem.nanoClrTable.TBL_MethodDef, index);
         }
 
-        public static uint nanoCLRTokenFromTypeIndex (uint index)
+        public static uint NanoClrTokenFromTypeIndex (uint index)
         {
             return nanoCLRTokenFromIndex (nanoCLR_TypeSystem.nanoClrTable.TBL_TypeDef, index);
         }
 
         public class SymbollessSupport
         {
-            public static uint MethodDefTokenFromnanoCLRToken (uint token)
+            public static uint MethodDefTokenFromNanoClrToken (uint token)
             {
                 Debug.Assert (CLR_TypeFromTk (token) == nanoClrTable.TBL_MethodDef);
                 return (uint)CorTokenType.mdtMethodDef | CLR_DataFromTk (token);
             }
 
-            public static uint nanoCLRTokenFromMethodDefToken (uint token)
+            public static uint NanoClrTokenFromMethodDefToken (uint token)
             {
                 Debug.Assert ((token & (uint)CorTokenType.mdtMethodDef) != 0);
                 return nanoCLR_TypeSystem.CLR_TkFromType (nanoClrTable.TBL_MethodDef, token & 0x00ffffff);
             }
 
-            public static uint TypeDefTokenFromnanoCLRToken (uint token)
+            public static uint TypeDefTokenFromNanoClrToken (uint token)
             {
                 Debug.Assert (CLR_TypeFromTk (token) == nanoClrTable.TBL_TypeDef);
                 return (uint)CorTokenType.mdtTypeDef | CLR_DataFromTk (token);
             }
 
-            public static uint nanoCLRTokenFromTypeDefToken (uint token)
+            public static uint NanoClrTokenFromTypeDefToken (uint token)
             {
                 Debug.Assert ((token & (uint)CorTokenType.mdtTypeDef) != 0);
                 return nanoCLR_TypeSystem.CLR_TkFromType (nanoClrTable.TBL_TypeDef, token & 0x00ffffff);

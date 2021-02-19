@@ -345,8 +345,8 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 Debugger.WireProtocol.Commands.Debugging_Resolve_Method.Result resolvedMethod = Process.Engine.ResolveMethod(index);
                 Debug.Assert( nanoCLR_TypeSystem.IdxAssemblyFromIndex( resolvedMethod.m_td ) == Idx);
 
-                uint tkMethod = nanoCLR_TypeSystem.SymbollessSupport.MethodDefTokenFromnanoCLRToken( tk );
-                uint tkClass = nanoCLR_TypeSystem.nanoCLRTokenFromTypeIndex( resolvedMethod.m_td );
+                uint tkMethod = nanoCLR_TypeSystem.SymbollessSupport.MethodDefTokenFromNanoClrToken( tk );
+                uint tkClass = nanoCLR_TypeSystem.NanoClrTokenFromTypeIndex( resolvedMethod.m_td );
 
                 CorDebugClass c = GetClassFromTokennanoCLR( tkClass );
 
@@ -382,7 +382,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             if(HasSymbols)
                 return GetClassFromToken( tk, _nanoClrTokensToPdbx );
             else
-                return new CorDebugClass( this, nanoCLR_TypeSystem.SymbollessSupport.TypeDefTokenFromnanoCLRToken( tk ) );
+                return new CorDebugClass( this, nanoCLR_TypeSystem.SymbollessSupport.TypeDefTokenFromNanoClrToken( tk ) );
         }
 
         ~CorDebugAssembly()

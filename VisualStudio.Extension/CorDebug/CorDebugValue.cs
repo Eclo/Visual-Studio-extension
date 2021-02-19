@@ -99,7 +99,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             }
             else
             {
-                cls = nanoCLR_TypeSystem.CorDebugClassFromTypeIndex( rtv.Type, appDomain ); ;
+                cls = nanoCLR_TypeSystem.CorDebugClassFromTypeIndex( rtv.Type, appDomain );
             }
 
             if(objBuiltInKey != null)
