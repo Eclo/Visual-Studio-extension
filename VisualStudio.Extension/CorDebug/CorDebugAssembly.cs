@@ -95,6 +95,24 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                         AddTokenToHashtables( method.Token, method );
                     }
                 }
+
+                foreach(var genericParameter in _pdbxAssembly.GenericParams)
+                {
+                    AddTokenToHashtables(genericParameter.Token, genericParameter);
+                }
+
+                foreach(var typeSpec in _pdbxAssembly.TypeSpecs)
+                {
+                    AddTokenToHashtables(typeSpec.Token, typeSpec);
+
+                    if(typeSpec.IsGenericInstance)
+                    {
+                        foreach (var member in typeSpec.Members)
+                        {
+                            AddTokenToHashtables(member.Token, member);
+                        }
+                    }
+                }
             }
         }
 
