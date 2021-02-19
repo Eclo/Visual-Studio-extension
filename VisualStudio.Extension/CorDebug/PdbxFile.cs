@@ -131,8 +131,8 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 #if DEBUG
                     for (int iIL = 0; iIL < m.ILMap.Count - 1; iIL++)
                     {
-                        Debug.Assert(m.ILMap[iIL].ClrToken < m.ILMap[iIL + 1].ClrToken);
-                        Debug.Assert(m.ILMap[iIL].NanoClrToken < m.ILMap[iIL + 1].NanoClrToken);
+                        Debug.Assert(m.ILMap[iIL].CLRToken < m.ILMap[iIL + 1].CLRToken);
+                        Debug.Assert(m.ILMap[iIL].NanoCLRToken < m.ILMap[iIL + 1].NanoCLRToken);
                     }
 #endif
                 }
@@ -152,23 +152,23 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         }
 
-        public Token(uint clrToken, uint nanoClrToken)
+        public Token(uint clrToken, uint nanoCLRToken)
         {
-            Clr = clrToken.ToString("X8");
-            NanoClr = nanoClrToken.ToString("X8");
+            CLR = clrToken.ToString("X8");
+            NanoCLR = nanoCLRToken.ToString("X8");
         }
 
-        public uint ClrToken => uint.Parse(Clr, System.Globalization.NumberStyles.HexNumber);
-        public uint NanoClrToken => uint.Parse(NanoClr, System.Globalization.NumberStyles.HexNumber);
+        public uint CLRToken => uint.Parse(CLR, System.Globalization.NumberStyles.HexNumber);
+        public uint NanoCLRToken => uint.Parse(NanoCLR, System.Globalization.NumberStyles.HexNumber);
     }
 
     public partial class IL
     {
-        public uint ClrToken
+        public uint CLRToken
         {
             get 
             {
-                return uint.Parse(Token.Clr, System.Globalization.NumberStyles.HexNumber);
+                return uint.Parse(Token.CLR, System.Globalization.NumberStyles.HexNumber);
             }
 
             set
@@ -179,16 +179,16 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 }
                 else
                 {
-                    Token.Clr = value.ToString("X8");
+                    Token.CLR = value.ToString("X8");
                 }
             }
         }
 
-        public uint NanoClrToken
+        public uint NanoCLRToken
         {
             get
             {
-                return uint.Parse(Token.NanoClr, System.Globalization.NumberStyles.HexNumber);
+                return uint.Parse(Token.NanoCLR, System.Globalization.NumberStyles.HexNumber);
             }
 
             set
@@ -199,7 +199,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 }
                 else
                 {
-                    Token.NanoClr = value.ToString("X8");
+                    Token.NanoCLR = value.ToString("X8");
                 }
             }
         }

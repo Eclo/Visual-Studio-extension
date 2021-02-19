@@ -57,7 +57,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         public const int DeviceCapabilitiesID = 0x0220;
         public const int DeviceEraseID = 0x0230;
         public const int RebooMenuGroupID = 0x0240;
-        public const int RebootClrID = 0x0242;
+        public const int RebootCLRID = 0x0242;
         public const int RebootNanoBooterID = 0x0244;
         public const int RebootBootloaderID = 0x0246;
         public const int NetworkConfigID = 0x0250;
@@ -172,7 +172,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             menuCommandService.AddCommand(menuItem);
 
             // Reboot CLR
-            toolbarButtonCommandId = GenerateCommandID(RebootClrID);
+            toolbarButtonCommandId = GenerateCommandID(RebootCLRID);
             menuItem = new MenuCommand(new EventHandler(
                 RebootCommandHandler), toolbarButtonCommandId);
             menuCommandService.AddCommand(menuItem);
@@ -769,7 +769,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                                     rebootOption = RebootOptions.NormalReboot;
                                 }
                             }
-                            else if (idCommand == GenerateCommandID(RebootClrID).ID)
+                            else if (idCommand == GenerateCommandID(RebootCLRID).ID)
                             {
                                 rebootOption = RebootOptions.ClrOnly;
                             }
@@ -1097,14 +1097,14 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 menuCommandService.FindCommand(GenerateCommandID(RebootBootloaderID)).Enabled = ViewModelLocator.DeviceExplorer.SelectedDevice.HasProprietaryBooter;
 
                 // enable boot CLR if we are on CLR
-                menuCommandService.FindCommand(GenerateCommandID(RebootClrID)).Enabled = ViewModelLocator.DeviceExplorer.SelectedDevice.DebugEngine != null ? ViewModelLocator.DeviceExplorer.SelectedDevice.DebugEngine.IsConnectedTonanoCLR : false;
+                menuCommandService.FindCommand(GenerateCommandID(RebootCLRID)).Enabled = ViewModelLocator.DeviceExplorer.SelectedDevice.DebugEngine != null ? ViewModelLocator.DeviceExplorer.SelectedDevice.DebugEngine.IsConnectedTonanoCLR : false;
             }
             else
             {
                 // enable everything, as default
                 menuCommandService.FindCommand(GenerateCommandID(RebootNanoBooterID)).Enabled = true;
                 menuCommandService.FindCommand(GenerateCommandID(RebootBootloaderID)).Enabled = true;
-                menuCommandService.FindCommand(GenerateCommandID(RebootClrID)).Enabled = true;
+                menuCommandService.FindCommand(GenerateCommandID(RebootCLRID)).Enabled = true;
             }
         }
 

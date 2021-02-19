@@ -89,7 +89,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         {
             get 
             {
-                uint tk = HasSymbols ? m_pdbxMethod.Token.NanoClrToken : m_tkSymbolless;
+                uint tk = HasSymbols ? m_pdbxMethod.Token.NanoCLRToken : m_tkSymbolless;
 
                 return nanoCLR_TypeSystem.ClassMemberIndexFromnanoCLRToken (tk, m_class.Assembly);
             }
@@ -103,27 +103,27 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         public bool IsInternal
         {
-            get {return MetaData.Helper.MethodIsInternal (Class.Assembly.MetaDataImport, m_pdbxMethod.Token.ClrToken); }
+            get {return MetaData.Helper.MethodIsInternal (Class.Assembly.MetaDataImport, m_pdbxMethod.Token.CLRToken); }
         }
 
         public bool IsInstance
         {
-            get { return MetaData.Helper.MethodIsInstance(Class.Assembly.MetaDataImport, m_pdbxMethod.Token.ClrToken); }
+            get { return MetaData.Helper.MethodIsInstance(Class.Assembly.MetaDataImport, m_pdbxMethod.Token.CLRToken); }
         }
 
         public bool IsVirtual
         {
-            get { return MetaData.Helper.MethodIsVirtual(Class.Assembly.MetaDataImport, m_pdbxMethod.Token.ClrToken); }
+            get { return MetaData.Helper.MethodIsVirtual(Class.Assembly.MetaDataImport, m_pdbxMethod.Token.CLRToken); }
         }
 
         public uint NumArg
         {
-            get {return MetaData.Helper.MethodGetNumArg (Class.Assembly.MetaDataImport, m_pdbxMethod.Token.ClrToken);  }
+            get {return MetaData.Helper.MethodGetNumArg (Class.Assembly.MetaDataImport, m_pdbxMethod.Token.CLRToken);  }
         }
 
         public uint NumGenericParams
         {
-            get { return MetaData.Helper.MethodGetGenericParamCount(Class.Assembly.MetaDataImport, m_pdbxMethod.Token.ClrToken); }
+            get { return MetaData.Helper.MethodGetGenericParamCount(Class.Assembly.MetaDataImport, m_pdbxMethod.Token.CLRToken); }
         }
 
         public uint GetILCLRFromILnanoCLR(uint ilnanoCLR)
@@ -162,7 +162,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
             private static uint GetIL(bool fCLR, IL il)
             {
-                return fCLR ? il.ClrToken : il.NanoClrToken;
+                return fCLR ? il.CLRToken : il.NanoCLRToken;
             }
 
             private uint GetIL(IL il)
@@ -174,11 +174,11 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             {
                 if (fCLR)
                 {
-                    il.ClrToken = offset;
+                    il.CLRToken = offset;
                 }
                 else
                 {
-                    il.NanoClrToken = offset;
+                    il.NanoCLRToken = offset;
                 }
             }
 
@@ -271,7 +271,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         int ICorDebugFunction.GetToken( out uint pMethodDef )
         {
-            pMethodDef = HasSymbols ? m_pdbxMethod.Token.ClrToken : m_tkSymbolless;
+            pMethodDef = HasSymbols ? m_pdbxMethod.Token.CLRToken : m_tkSymbolless;
 
             return COM_HResults.S_OK;
         }

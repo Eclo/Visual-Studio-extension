@@ -21,7 +21,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         CorDebugAppDomain _appDomain;
         CorDebugProcess _process;
         Hashtable _clrTokensToPdbx;
-        Hashtable _nanoClrTokensToPdbx;
+        Hashtable _nanoCLRTokensToPdbx;
         PdbxFile _pdbxFile;
         Assembly _pdbxAssembly;
         IMetaDataImport _iMetaDataImport;
@@ -61,7 +61,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             _pdbxFile = pdbxFile;
             _pdbxAssembly = (pdbxFile != null) ? pdbxFile.Assembly : null;
             _clrTokensToPdbx = new Hashtable();
-            _nanoClrTokensToPdbx = new Hashtable();
+            _nanoCLRTokensToPdbx = new Hashtable();
             _idx = idx;
             _primaryAssembly = null;
             _isFrameworkAssembly = false;
@@ -214,8 +214,8 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         private void AddTokenToHashtables(Token token, object o)
         {
-            _clrTokensToPdbx[token.ClrToken] = o;
-            _nanoClrTokensToPdbx[token.NanoClrToken] = o;
+            _clrTokensToPdbx[token.CLRToken] = o;
+            _nanoCLRTokensToPdbx[token.NanoCLRToken] = o;
         }
 
         private string FindAssemblyOnDisk()
@@ -336,7 +336,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         {
             if(HasSymbols)
             {
-                return GetFunctionFromToken( tk, _nanoClrTokensToPdbx );
+                return GetFunctionFromToken( tk, _nanoCLRTokensToPdbx );
             }
             else
             {
@@ -345,10 +345,10 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 Debugger.WireProtocol.Commands.Debugging_Resolve_Method.Result resolvedMethod = Process.Engine.ResolveMethod(index);
                 Debug.Assert( nanoCLR_TypeSystem.IdxAssemblyFromIndex( resolvedMethod.m_td ) == Idx);
 
-                uint tkMethod = nanoCLR_TypeSystem.SymbollessSupport.MethodDefTokenFromNanoClrToken( tk );
-                uint tkClass = nanoCLR_TypeSystem.NanoClrTokenFromTypeIndex( resolvedMethod.m_td );
+                uint tkMethod = nanoCLR_TypeSystem.SymbollessSupport.MethodDefTokenFromNanoCLRToken( tk );
+                uint tkClass = nanoCLR_TypeSystem.NanoCLRTokenFromTypeIndex( resolvedMethod.m_td );
 
-                CorDebugClass c = GetClassFromTokennanoCLR( tkClass );
+                CorDebugClass c = GetClassFromNanoCLRToken( tkClass );
 
                 return new CorDebugFunction( c, tkMethod );
             }
@@ -372,15 +372,18 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         }
 
 
-        public CorDebugClass GetClassFromTokenCLR( uint tk )
+        public CorDebugClass GetClassFromCLRToken( uint tk )
         {
             return GetClassFromToken( tk, _clrTokensToPdbx );
         }
 
-        public CorDebugClass GetClassFromTokennanoCLR( uint tk )
+        public CorDebugClass GetClassFromNanoCLRToken( uint tk )
         {
             if(HasSymbols)
-                return GetClassFromToken( tk, _nanoClrTokensToPdbx );
+                return GetClassFromToken( tk, _nanoCLRTokensToPdbx );
+            else
+                return new CorDebugClass( this, nanoCLR_TypeSystem.SymbollessSupport.TypeDefTokenFromNanoCLRToken( tk ) );
+        }
             else
                 return new CorDebugClass( this, nanoCLR_TypeSystem.SymbollessSupport.TypeDefTokenFromNanoClrToken( tk ) );
         }
@@ -517,7 +520,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         int ICorDebugModule.GetClassFromToken( uint typeDef, out ICorDebugClass ppClass )
         {
-            ppClass = GetClassFromTokenCLR( typeDef );
+            ppClass = GetClassFromCLRToken( typeDef );
 
             return COM_HResults.S_OK;
         }
@@ -551,7 +554,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         int ICorDebugModule.GetToken( out uint pToken )
         {
-            pToken = _pdbxAssembly.Token.ClrToken;
+            pToken = _pdbxAssembly.Token.CLRToken;
 
             return COM_HResults.S_OK;
         }

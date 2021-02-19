@@ -603,7 +603,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             DebugAssert(!AnyQueuedEvents, "Error queueing start-up events. There are no queued events.");
         }
 
-        private void StartClr()
+        private void StartCLR()
         {
             try
             {
@@ -713,7 +713,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                     {
                         MessageCentre.StartProgressMessage(Resources.ResourceStrings.DebuggingStarting);
 
-                        StartClr();
+                        StartCLR();
                         DispatchEvents();
                     }
                     catch (Exception ex)
@@ -1644,7 +1644,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             {
                 CorDebugAssembly assembly = GetAssembly( appDomain );
 
-                return assembly.GetClassFromTokenCLR(m_tkCLR);
+                return assembly.GetClassFromCLRToken(m_tkCLR);
             }
 
             public uint TokenCLR
@@ -1656,7 +1656,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         private void AddBuiltInType(object o, CorDebugAssembly assm, string type)
         {
             uint tkCLR = MetaData.Helper.ClassTokenFromName(assm.MetaDataImport, type);
-            CorDebugClass c = assm.GetClassFromTokenCLR(tkCLR);
+            CorDebugClass c = assm.GetClassFromCLRToken(tkCLR);
 
             BuiltinType builtInType = new BuiltinType( assm, tkCLR, c );
 
@@ -1665,7 +1665,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         public BuiltinType ResolveBuiltInType(object o)
         {
-            DebugAssert(o is CorElementType || o is ReflectionDefinition.Kind || o is Debugger.nanoClrDataType, "Error resolving built-in type.");
+            DebugAssert(o is CorElementType || o is ReflectionDefinition.Kind || o is Debugger.NanoCLRDataType, "Error resolving built-in type.");
 
             CorDebugAssembly assmCorLib = null;
 
@@ -1708,7 +1708,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 AddBuiltInType(ReflectionDefinition.Kind.REFLECTION_METHOD, assmCorLib, "System.Reflection.RuntimeMethodInfo");
                 AddBuiltInType(ReflectionDefinition.Kind.REFLECTION_CONSTRUCTOR, assmCorLib, "System.Reflection.RuntimeConstructorInfo");
 
-                AddBuiltInType(nanoClrDataType.DATATYPE_TRANSPARENT_PROXY, assmCorLib, "System.Runtime.Remoting.Proxies.__TransparentProxy" );
+                AddBuiltInType(NanoCLRDataType.DATATYPE_TRANSPARENT_PROXY, assmCorLib, "System.Runtime.Remoting.Proxies.__TransparentProxy" );
             }
 
             return (BuiltinType)_tdBuiltin[o];

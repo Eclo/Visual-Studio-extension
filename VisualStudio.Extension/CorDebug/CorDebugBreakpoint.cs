@@ -58,10 +58,10 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         {
             m_function        = function;
             m_il              = new IL();
-            m_il.ClrToken     = ilCLR;
-            m_il.NanoClrToken = function.GetILnanoCLRFromILCLR(ilCLR);
+            m_il.CLRToken     = ilCLR;
+            m_il.NanoCLRToken = function.GetILnanoCLRFromILCLR(ilCLR);
 
-            m_breakpointDef.m_IP  = m_il.NanoClrToken;            
+            m_breakpointDef.m_IP  = m_il.NanoCLRToken;            
             m_breakpointDef.m_md  = m_function.MethodDef_Index;
 
             Active = true;   
@@ -147,7 +147,7 @@ namespace nanoFramework.Tools.VisualStudio.Extension
 
         int ICorDebugFunctionBreakpoint.GetOffset( out uint pnOffset )
         {
-            pnOffset = m_il.ClrToken;
+            pnOffset = m_il.CLRToken;
 
             return COM_HResults.S_OK;         
         }
