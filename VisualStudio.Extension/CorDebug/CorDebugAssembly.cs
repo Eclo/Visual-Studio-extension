@@ -362,15 +362,40 @@ namespace nanoFramework.Tools.VisualStudio.Extension
         private CorDebugClass GetClassFromToken( uint tk, Hashtable ht )
         {
             CorDebugClass cls = null;
+
+            // try with classes
             Class c = ht[tk] as Class;
             if(c != null)
             {
                 cls = new CorDebugClass( this, c );
             }
+            else
+            {
+                // try with type specifications
+                TypeSpec ts = ht[tk] as TypeSpec;
+                
+                if (ts != null)
+                {
+                    c = ht[(uint)0x04000001] as Class;
+
+                    cls = new CorDebugClass(this, c);
+                }
+            }
 
             return cls;
         }
 
+        private CorDebugClass GetGenericTypeFromToken(uint tk, Hashtable ht)
+        {
+            CorDebugClass cls = null;
+            TypeSpec t = ht[tk] as TypeSpec;
+            if (t != null)
+            {
+               //cls = new CorDebugClass(this, t);
+            }
+
+            return cls;
+        }
 
         public CorDebugClass GetClassFromCLRToken( uint tk )
         {
@@ -384,8 +409,13 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             else
                 return new CorDebugClass( this, nanoCLR_TypeSystem.SymbollessSupport.TypeDefTokenFromNanoCLRToken( tk ) );
         }
+
+        public CorDebugClass GetGenericTypeFromNanoCLRToken(uint tk)
+        {
+            if (HasSymbols)
+                return GetGenericTypeFromToken(tk, _nanoCLRTokensToPdbx);
             else
-                return new CorDebugClass( this, nanoCLR_TypeSystem.SymbollessSupport.TypeDefTokenFromNanoClrToken( tk ) );
+                return new CorDebugClass(this, nanoCLR_TypeSystem.SymbollessSupport.TypeSpecTokenFromNanoCLRToken(tk));
         }
 
         ~CorDebugAssembly()

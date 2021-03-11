@@ -4,6 +4,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using System;
 using System.Diagnostics;
 
 namespace nanoFramework.Tools.VisualStudio.Extension
@@ -114,8 +115,23 @@ namespace nanoFramework.Tools.VisualStudio.Extension
             CorDebugAssembly assembly = appDomain.AssemblyFromIdx(nanoCLR_TypeSystem.IdxAssemblyFromIndex(typeIndex));
             if (assembly != null)
             {
-                uint typedef = nanoCLR_TypeSystem.CLR_TkFromType(nanoCLR_TypeSystem.nanoClrTable.TBL_TypeDef, nanoCLR_TypeSystem.IdxFromIndex(typeIndex));
-                cls = assembly.GetClassFromTokennanoCLR(typedef);
+                uint typedef = nanoCLR_TypeSystem.CLR_TkFromType(nanoCLR_TypeSystem.NanoCLRTable.TBL_TypeDef, nanoCLR_TypeSystem.IdxFromIndex(typeIndex));
+                cls = assembly.GetClassFromNanoCLRToken(typedef);
+            }
+
+            return cls;
+        }
+
+        internal static CorDebugClass CorDebugClassFromTypeSpec(uint typeSpecIndex, CorDebugAppDomain appDomain)
+        {
+            CorDebugClass cls = null;
+
+            CorDebugAssembly assembly = appDomain.AssemblyFromIdx(nanoCLR_TypeSystem.IdxAssemblyFromIndex(typeSpecIndex));
+            if (assembly != null)
+            {
+                uint typeSpec = nanoCLR_TypeSystem.CLR_TkFromType(nanoCLR_TypeSystem.NanoCLRTable.TBL_TypeSpec, nanoCLR_TypeSystem.IdxFromIndex(typeSpecIndex));
+
+                cls = assembly.GetClassFromNanoCLRToken(typeSpec);
             }
 
             return cls;
@@ -191,6 +207,19 @@ namespace nanoFramework.Tools.VisualStudio.Extension
                 Debug.Assert ((token & (uint)CorTokenType.mdtTypeDef) != 0);
                 return nanoCLR_TypeSystem.CLR_TkFromType (NanoCLRTable.TBL_TypeDef, token & 0x00ffffff);
             }
+
+            internal static uint TypeSpecTokenFromNanoCLRToken(uint token)
+            {
+                Debug.Assert(CLR_TypeFromTk(token) == NanoCLRTable.TBL_TypeSpec);
+                return (uint)CorTokenType.mdtTypeSpec | CLR_DataFromTk(token);
+            }
+
+            public static uint NanoCLRTokenFromTypeSpecToken(uint token)
+            {
+                Debug.Assert((token & (uint)CorTokenType.mdtTypeSpec) != 0);
+                return nanoCLR_TypeSystem.CLR_TkFromType(NanoCLRTable.TBL_TypeSpec, token & 0x00ffffff);
+            }
+
         }
     }
 }
